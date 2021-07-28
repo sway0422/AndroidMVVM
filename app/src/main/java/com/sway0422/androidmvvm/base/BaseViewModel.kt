@@ -1,6 +1,7 @@
 package com.sway0422.androidmvvm.base
 
 import android.app.Application
+import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -86,4 +87,81 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
     }
 
 
+    override fun showLoadingUI(isShow: Boolean) {
+        loadingEvent.postValue(isShow)
+    }
+
+    override fun showEmptyUI(isShow: Boolean) {
+        emptyPageEvent.postValue(isShow)
+    }
+
+    override fun showToast(map: Map<String, *>) {
+        toastEvent.postValue(map)
+    }
+
+    override fun navigate(page: Any) {
+        pageNavigationEvent.postValue(page)
+    }
+
+    override fun backPress(arg: Any?) {
+        backPressEvent.postValue(arg)
+    }
+
+    override fun finishPage(arg: Any?) {
+        finishPageEvent.postValue(arg)
+    }
+
+    protected fun showToast(msg: String, duration: Int? = null) {
+//        val map = HashMap<String, Any>().apply {
+//            put(
+//                FlyBaseConstants.FLY_TOAST_KEY_CONTENT_TYPE,
+//                FlyBaseConstants.FLY_TOAST_CONTENT_TYPE_STR
+//            )
+//            put(FlyBaseConstants.FLY_TOAST_KEY_CONTENT, msg)
+//            if (duration != null) {
+//                put(FlyBaseConstants.FLY_TOAST_KEY_DURATION, duration)
+//            }
+//        }
+//        showToast(map)
+    }
+
+    protected fun showToast(@StringRes resId: Int, duration: Int? = null) {
+//        val map = HashMap<String, Any>().apply {
+//            put(
+//                FlyBaseConstants.FLY_TOAST_KEY_CONTENT_TYPE,
+//                FlyBaseConstants.FLY_TOAST_CONTENT_TYPE_RESID
+//            )
+//            put(FlyBaseConstants.FLY_TOAST_KEY_CONTENT, resId)
+//            if (duration != null) {
+//                put(FlyBaseConstants.FLY_TOAST_KEY_DURATION, duration)
+//            }
+//        }
+//        showToast(map)
+    }
+
+    protected fun backPress() {
+        backPress(null)
+    }
+
+    protected fun finishPage() {
+        finishPage(null)
+    }
+
+    companion object {
+        @JvmStatic
+        fun <T : BaseViewModel> createViewModelFactory(viewModel: T): ViewModelProvider.Factory {
+            return ViewModelFactory(viewModel)
+        }
+    }
+
+}
+
+/**
+ * 创建ViewModel的工厂，以此方法创建的ViewModel，可在构造函数中传参
+ */
+class ViewModelFactory(val viewModel: BaseViewModel) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return viewModel as T
+    }
 }

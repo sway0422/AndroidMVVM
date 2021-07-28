@@ -26,10 +26,10 @@ abstract class BaseActivity : AppCompatActivity(), PermissionUtils.PermissionCal
 
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        TODO("Not yet implemented")
+
     }
 }
